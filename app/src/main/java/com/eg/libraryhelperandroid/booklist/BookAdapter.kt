@@ -1,15 +1,19 @@
 package com.eg.libraryhelperandroid.booklist
 
-import android.net.Uri
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.eg.libraryhelperandroid.R
 
-class BookAdapter(val bookQueryResponse: BookQueryResponse) :
+class BookAdapter(
+    val bookQueryResponse: BookQueryResponse,
+    val context: Context
+) :
     RecyclerView.Adapter<BookAdapter.ViewHolder>() {
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tv_title: TextView = view.findViewById(R.id.tv_title)
@@ -33,6 +37,7 @@ class BookAdapter(val bookQueryResponse: BookQueryResponse) :
         if (book != null) {
             holder.tv_publisher.text = book.publisher
         }
+        Glide.with(context).load(book?.coverImageUrl).into(holder.image_book)
     }
 
 
