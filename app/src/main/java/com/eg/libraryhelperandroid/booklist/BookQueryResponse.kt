@@ -1,7 +1,5 @@
 package com.eg.libraryhelperandroid.booklist
 
-import lombok.Data
-
 
 /**
  * 相应给客户端的，查询书的列表

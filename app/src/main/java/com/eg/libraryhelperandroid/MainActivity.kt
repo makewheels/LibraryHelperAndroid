@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import com.eg.libraryhelperandroid.booklist.BookListActivity
 import com.eg.libraryhelperandroid.booklist.BookQueryRecord
+import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -13,6 +14,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         setClickListener()
 
     }
@@ -21,9 +23,9 @@ class MainActivity : AppCompatActivity() {
         //搜索按钮点击监听
         btn_search.setOnClickListener {
             //搜索内容
-            var q = et_search.text.toString()
+            val q = et_search.text.toString()
             //打开结果列表页
-            var intent = Intent(this, BookListActivity::class.java)
+            val intent = Intent(this, BookListActivity::class.java)
             intent.putExtra("q", q)
             startActivity(intent)
         }
