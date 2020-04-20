@@ -6,7 +6,7 @@ package com.eg.libraryhelperandroid.bookdetail
  * @time 2020-04-18 19:24
  */
 class BookDetailResponse {
-    val id: String? = null
+    val mangoId: String? = null
     //一次图书馆爬虫所拿到的：
     val isbn: String? = null            //isbn从图书馆网站爬下来，带横杠
     val callno: String? = null          //索书号

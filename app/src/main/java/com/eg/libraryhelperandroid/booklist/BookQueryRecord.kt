@@ -4,7 +4,7 @@ package com.eg.libraryhelperandroid.booklist
  * @time 2020-04-17 20:57
  */
 class BookQueryRecord {
-    val id: String? = null
+    val mangoId: String? = null
     var isbn: String? = null            //isbn从图书馆网站爬下来，带横杠
     var isbn13: String? = null          //没有横杠，纯数字
     val callno: String? = null          //索书号

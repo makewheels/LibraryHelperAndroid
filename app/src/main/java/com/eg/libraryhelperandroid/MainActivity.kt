@@ -14,9 +14,18 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        //检查更新
+        checkUpdate()
         setClickListener()
 
+    }
+
+    /**
+     * 检查更新
+     */
+    private fun checkUpdate() {
+        val packageInfo = packageManager.getPackageInfo(packageName, 0)
+        return
     }
 
     private fun setClickListener() {
