@@ -57,7 +57,7 @@ class BookDetailActivity : AppCompatActivity() {
                 runOnUiThread(Runnable {
                     tv_title.text = bookDetailResponse.title
                     Glide.with(this@BookDetailActivity)
-                        .load(bookDetailResponse.coverImageUrl)
+                        .load(bookDetailResponse.coverUrl)
                         .into(iv_cover)
                     tv_publisher.text = bookDetailResponse.publisher
                     tv_publishDate.text = bookDetailResponse.publishDate

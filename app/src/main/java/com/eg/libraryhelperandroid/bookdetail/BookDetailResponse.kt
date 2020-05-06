@@ -14,7 +14,7 @@ class BookDetailResponse {
 
     //豆瓣api拿到的：
     val isbn13: String? = null          //没有横杠，纯数字
-    val coverImageUrl: String? = null   //封面图片url
+    val coverUrl: String? = null        //封面图片url
     val title: String? = null           //书名
     val subtitle: String? = null        //子书名
     val originTitle: String? = null     //原书名

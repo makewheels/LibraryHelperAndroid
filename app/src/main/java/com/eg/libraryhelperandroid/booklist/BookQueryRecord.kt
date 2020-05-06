@@ -9,7 +9,7 @@ class BookQueryRecord {
     var isbn13: String? = null          //没有横杠，纯数字
     val callno: String? = null          //索书号
     val bookrecno: String? = null       //书的id，例如：127796
-    var coverImageUrl: String? = null   //封面图片url
+    var coverUrl: String? = null   //封面图片url
     var title: String? = null           //书名
     var subtitle: String? = null        //子书名
     var authorList: List<String>? = null//作者列表

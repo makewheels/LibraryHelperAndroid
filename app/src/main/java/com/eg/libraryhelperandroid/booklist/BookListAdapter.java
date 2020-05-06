@@ -109,7 +109,7 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.ViewHo
         BookQueryRecord book = data.get(position);
         holder.tv_title.setText(book.getTitle());
         holder.tv_publisher.setText(book.getPublisher());
-        Glide.with(context).load(book.getCoverImageUrl()).into(holder.iv_cover);
+        Glide.with(context).load(book.getCoverUrl()).into(holder.iv_cover);
     }
 
     @Override
