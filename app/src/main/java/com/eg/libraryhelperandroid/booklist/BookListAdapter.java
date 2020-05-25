@@ -108,7 +108,6 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         BookQueryRecord book = data.get(position);
         holder.tv_title.setText(book.getTitle());
-        holder.tv_publisher.setText(book.getPublisher());
         Glide.with(context).load(book.getCoverUrl()).into(holder.iv_cover);
     }
 
@@ -119,13 +118,11 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.ViewHo
 
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView tv_title;
-        TextView tv_publisher;
         ImageView iv_cover;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
             tv_title = itemView.findViewById(R.id.tv_title);
-            tv_publisher = itemView.findViewById(R.id.tv_publisher);
             iv_cover = itemView.findViewById(R.id.iv_cover);
             //点击事件
             itemView.setOnClickListener(new View.OnClickListener() {

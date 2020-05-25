@@ -2,7 +2,6 @@ package com.eg.libraryhelperandroid.bookdetail
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.Glide
 import com.eg.libraryhelperandroid.R
 import com.eg.libraryhelperandroid.util.OkHttpUtil
@@ -24,15 +23,8 @@ class BookDetailActivity : AppCompatActivity() {
 
         //获取id
         val mangoId = intent.getStringExtra("mangoId") as String
-
         //加载书的详情
         loadBookDetail(mangoId)
-
-        //监听下拉刷新
-        swipeRefreshLayout.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
-            loadBookDetail(mangoId)
-        })
-
     }
 
     /**
@@ -43,11 +35,6 @@ class BookDetailActivity : AppCompatActivity() {
         val call = OkHttpUtil.getCall("/book/getBookDetail?mangoId=" + mangoId)
         call.enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                e.printStackTrace()
-                runOnUiThread(Runnable {
-                    //取消下拉刷新转动图标
-                    swipeRefreshLayout.isRefreshing = false
-                })
             }
 
             override fun onResponse(call: Call, response: Response) {
@@ -63,8 +50,6 @@ class BookDetailActivity : AppCompatActivity() {
                     tv_publishDate.text = bookDetailResponse.publishDate
                     tv_catalog.text = bookDetailResponse.catalog
                     tv_summary.text = bookDetailResponse.summary
-                    //取消下拉刷新转动图标
-                    swipeRefreshLayout.isRefreshing = false
                 })
             }
         })

@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.activity_book_list.*
 
 
 class BookListActivity : AppCompatActivity() {
-    private val mainHanlder: Handler = Handler()
+    private val mainHandler: Handler = Handler()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,7 +22,7 @@ class BookListActivity : AppCompatActivity() {
 
         //RecyclerView
         rv_bookList.layoutManager = LinearLayoutManager(this@BookListActivity)
-        val bookListAdapter = BookListAdapter(this@BookListActivity, mainHanlder, q)
+        val bookListAdapter = BookListAdapter(this@BookListActivity, mainHandler, q)
         rv_bookList.adapter = bookListAdapter
         //分割线
         rv_bookList.addItemDecoration(
