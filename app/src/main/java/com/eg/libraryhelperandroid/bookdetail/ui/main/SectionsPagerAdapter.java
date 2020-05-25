@@ -17,7 +17,7 @@ import com.eg.libraryhelperandroid.R;
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @StringRes
-    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1, R.string.tab_text_2};
+    private static final int[] TAB_TITLES = new int[]{R.string.app_name, R.string.app_name};
     private final Context mContext;
 
     public SectionsPagerAdapter(Context context, FragmentManager fm) {
