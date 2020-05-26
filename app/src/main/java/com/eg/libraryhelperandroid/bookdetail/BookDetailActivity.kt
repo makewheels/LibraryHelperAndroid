@@ -1,65 +1,58 @@
 package com.eg.libraryhelperandroid.bookdetail
 
-import android.content.Context
 import android.os.Bundle
+import android.provider.CallLog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
-import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.bumptech.glide.Glide
 import com.eg.libraryhelperandroid.R
 import com.eg.libraryhelperandroid.util.OkHttpUtil
-import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_book_detail.*
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.Response
 import java.io.IOException
+import java.lang.StringBuilder
 
 /**
  * 书的详情页
  */
 class BookDetailActivity : AppCompatActivity() {
+    private val catalogFragment: CatalogFragment = CatalogFragment()
+    private val summaryFragment: SummaryFragment = SummaryFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_book_detail)
+
+        //tab layout
+        viewPager.adapter = object : FragmentStateAdapter(this) {
+            override fun getItemCount(): Int {
+                return 2
+            }
+
+            override fun createFragment(position: Int): Fragment {
+                if (position == 0)
+                    return catalogFragment
+                else
+                    return summaryFragment
+            }
+        }
+        TabLayoutMediator(tabLayout, viewPager) { tabLayout, position ->
+            if (position == 0)
+                tabLayout.text = getString(R.string.catalog)
+            else
+                tabLayout.text = getString(R.string.summary)
+        }.attach()
 
         //获取id
         val mangoId = intent.getStringExtra("mangoId") as String
         //加载书的详情
         loadBookDetail(mangoId)
 
-        //tab layout
-        val viewPager = findViewById<ViewPager>(R.id.view_pager)
-        val tabAdapter = TabAdapter(
-            this, supportFragmentManager
-            , FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
-        )
-        viewPager.adapter = tabAdapter
-        val tabs = findViewById<TabLayout>(R.id.tabs)
-        tabs.setupWithViewPager(viewPager)
-    }
-
-    class TabAdapter(private val context: Context, fm: FragmentManager, behavior: Int) :
-        FragmentPagerAdapter(fm, behavior) {
-
-        override fun getItem(position: Int): Fragment {
-            return CatalogFragment()
-        }
-
-        override fun getPageTitle(position: Int): CharSequence? {
-            if (position == 0)
-                return context.getString(R.string.catalog)
-            else
-                return context.getString(R.string.summary)
-        }
-
-        override fun getCount(): Int {
-            return 2
-        }
     }
 
     /**
@@ -80,10 +73,21 @@ class BookDetailActivity : AppCompatActivity() {
                     Glide.with(this@BookDetailActivity)
                         .load(bookDetailResponse.coverUrl)
                         .into(iv_cover)
+                    val author = StringBuilder()
+                    bookDetailResponse.authorList?.forEach { each ->
+                        author.append(each)
+                    }
+                    tv_author.text = author
                     tv_publisher.text = bookDetailResponse.publisher
                     tv_publishDate.text = bookDetailResponse.publishDate
-//                    tv_catalog.text = bookDetailResponse.catalog
-//                    tv_summary.text = bookDetailResponse.summary
+                    //准备tab页目录和摘要的数据
+                    val catalog = bookDetailResponse.catalog.toString()
+                    if (catalog != "")
+                        TabData.catalog = catalog
+
+                    val summary = bookDetailResponse.catalog.toString()
+                    if (summary != "")
+                        TabData.summary = bookDetailResponse.summary.toString()
                 })
             }
         })

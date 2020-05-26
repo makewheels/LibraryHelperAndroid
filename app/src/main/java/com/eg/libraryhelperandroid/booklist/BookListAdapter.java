@@ -68,7 +68,6 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.ViewHo
         page++;
         //发请求
         String url = "/book/search?q=" + q + "&page=" + page + "&size=" + size;
-        Log.e("tag", url);
         Call call = OkHttpUtil.getCall(url);
         call.enqueue(new Callback() {
             @Override

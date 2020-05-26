@@ -3,5 +3,7 @@
     <string name="catalog">Catalog</string>
     <string name="summary">Summary</string>
     <string name="search">Search</string>
+    <string name="no_catalog">No catalog</string>
+    <string name="no_summary">No summary</string>
 
 </resources>

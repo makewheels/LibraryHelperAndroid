@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
      */
     private fun checkUpdate() {
         val packageInfo = packageManager.getPackageInfo(packageName, 0)
+        val versionCode = packageInfo.versionCode
         return
     }
 
