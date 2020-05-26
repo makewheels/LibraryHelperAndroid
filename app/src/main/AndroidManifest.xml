@@ -12,7 +12,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".bookdetail.TestTabActivity"></activity>
         <activity android:name=".bookdetail.BookDetailActivity" />
         <activity android:name=".booklist.BookListActivity" />
         <activity android:name=".MainActivity">

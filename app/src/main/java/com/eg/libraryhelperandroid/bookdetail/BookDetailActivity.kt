@@ -1,6 +1,5 @@
 package com.eg.libraryhelperandroid.bookdetail
 
-import android.app.Application
 import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -10,7 +9,6 @@ import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
 import com.eg.libraryhelperandroid.R
-import com.eg.libraryhelperandroid.bookdetail.ui.main.SectionsPagerAdapter
 import com.eg.libraryhelperandroid.util.OkHttpUtil
 import com.google.android.material.tabs.TabLayout
 import com.google.gson.Gson
@@ -84,8 +82,8 @@ class BookDetailActivity : AppCompatActivity() {
                         .into(iv_cover)
                     tv_publisher.text = bookDetailResponse.publisher
                     tv_publishDate.text = bookDetailResponse.publishDate
-                    tv_catalog.text = bookDetailResponse.catalog
-                    tv_summary.text = bookDetailResponse.summary
+//                    tv_catalog.text = bookDetailResponse.catalog
+//                    tv_summary.text = bookDetailResponse.summary
                 })
             }
         })
