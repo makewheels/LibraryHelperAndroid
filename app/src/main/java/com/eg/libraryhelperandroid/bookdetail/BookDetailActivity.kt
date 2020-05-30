@@ -1,7 +1,6 @@
 package com.eg.libraryhelperandroid.bookdetail
 
 import android.os.Bundle
-import android.provider.CallLog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
