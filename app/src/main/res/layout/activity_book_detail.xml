@@ -103,6 +103,13 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.5" />
+
+            <Button
+                android:id="@+id/btn_visit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/visit_library"
+                android:textAllCaps="false" />
         </LinearLayout>
 
         <com.google.android.material.tabs.TabLayout

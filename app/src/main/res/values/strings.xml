@@ -5,5 +5,6 @@
     <string name="search">Search</string>
     <string name="no_catalog">No catalog</string>
     <string name="no_summary">No summary</string>
+    <string name="visit_library">visit library</string>
 
 </resources>

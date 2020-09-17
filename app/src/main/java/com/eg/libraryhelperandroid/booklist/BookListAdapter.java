@@ -3,7 +3,6 @@ package com.eg.libraryhelperandroid.booklist;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +17,8 @@ import com.eg.libraryhelperandroid.R;
 import com.eg.libraryhelperandroid.bookdetail.BookDetailActivity;
 import com.eg.libraryhelperandroid.util.OkHttpUtil;
 import com.google.gson.Gson;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -71,7 +72,7 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.ViewHo
         Call call = OkHttpUtil.getCall(url);
         call.enqueue(new Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
+            public void onFailure(@NotNull Call call, IOException e) {
                 e.printStackTrace();
                 isLoading = false;
             }

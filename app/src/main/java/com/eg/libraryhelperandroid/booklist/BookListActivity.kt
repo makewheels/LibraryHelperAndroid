@@ -41,8 +41,7 @@ class BookListActivity : AppCompatActivity() {
                 //还剩几个没显示
                 val diff = totalSize - 1 - lastVisibleItemPosition
                 //继续加载
-                if (diff <= 5 && bookListAdapter.isLoading == false
-                    && bookListAdapter.isFinished == false
+                if (diff <= 5 && !bookListAdapter.isLoading && !bookListAdapter.isFinished
                 ) {
                     bookListAdapter.loadData()
                 }

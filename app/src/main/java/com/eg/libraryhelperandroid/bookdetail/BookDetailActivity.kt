@@ -14,7 +14,6 @@ import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.Response
 import java.io.IOException
-import java.lang.StringBuilder
 
 /**
  * 书的详情页
@@ -51,6 +50,9 @@ class BookDetailActivity : AppCompatActivity() {
         val mangoId = intent.getStringExtra("mangoId") as String
         //加载书的详情
         loadBookDetail(mangoId)
+
+        //给游图书馆添加按钮监听
+        addVisitLibraryButtonListener()
 
     }
 
@@ -89,6 +91,12 @@ class BookDetailActivity : AppCompatActivity() {
                         TabData.summary = bookDetailResponse.summary.toString()
                 })
             }
+        })
+    }
+
+    private fun addVisitLibraryButtonListener() {
+        btn_visit.setOnClickListener({
+
         })
     }
 }
