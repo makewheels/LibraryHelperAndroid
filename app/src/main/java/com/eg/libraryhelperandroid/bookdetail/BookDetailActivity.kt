@@ -9,6 +9,7 @@ import com.eg.libraryhelperandroid.R
 import com.eg.libraryhelperandroid.util.OkHttpUtil
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.gson.Gson
+import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.activity_book_detail.*
 import okhttp3.Call
 import okhttp3.Callback
@@ -95,9 +96,12 @@ class BookDetailActivity : AppCompatActivity() {
         })
     }
 
+    /**
+     * 游图书馆按钮
+     */
     private fun addVisitLibraryButtonListener() {
-        btn_visit.setOnClickListener({
-
-        })
+        btn_visit.setOnClickListener {
+            Toasty.info(this, "Hello baby!").show()
+        }
     }
 }
