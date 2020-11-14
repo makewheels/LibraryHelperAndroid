@@ -81,6 +81,7 @@ class BookDetailActivity : AppCompatActivity() {
                     tv_author.text = author
                     tv_publisher.text = bookDetailResponse.publisher
                     tv_publishDate.text = bookDetailResponse.publishDate
+                    tv_position.text = bookDetailResponse.position
                     //准备tab页目录和摘要的数据
                     val catalog = bookDetailResponse.catalog.toString()
                     if (catalog != "")

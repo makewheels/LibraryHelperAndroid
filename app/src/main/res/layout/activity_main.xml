@@ -50,7 +50,7 @@
         android:ems="10"
         android:focusedByDefault="true"
         android:inputType="textPersonName"
-        android:text="Java"
+        android:text="云计算"
         android:textSize="30dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toStartOf="@+id/guideline3"

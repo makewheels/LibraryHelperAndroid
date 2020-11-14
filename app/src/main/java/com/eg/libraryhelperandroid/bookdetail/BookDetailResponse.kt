@@ -7,6 +7,7 @@ package com.eg.libraryhelperandroid.bookdetail
  */
 class BookDetailResponse {
     val mangoId: String? = null
+
     //一次图书馆爬虫所拿到的：
     val isbn: String? = null            //isbn从图书馆网站爬下来，带横杠
     val callno: String? = null          //索书号
@@ -25,4 +26,6 @@ class BookDetailResponse {
     val pages: String? = null           //页码数
     val catalog: String? = null         //目录
     val summary: String? = null         //简述
+
+    val position: String? = null        //位置
 }
