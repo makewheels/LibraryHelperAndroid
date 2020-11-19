@@ -1,4 +1,4 @@
-package com.eg.libraryhelperandroid.bookdetail
+package com.eg.libraryhelperandroid.bookdetail.bean
 
 /**
  * 返回给客户端的，书的详情页的数据
@@ -27,5 +27,5 @@ class BookDetailResponse {
     val catalog: String? = null         //目录
     val summary: String? = null         //简述
 
-    val position: String? = null        //位置
+    val position: Position? = null        //位置
 }

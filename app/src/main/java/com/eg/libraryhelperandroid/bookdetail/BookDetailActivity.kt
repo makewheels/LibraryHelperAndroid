@@ -1,15 +1,18 @@
 package com.eg.libraryhelperandroid.bookdetail
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.bumptech.glide.Glide
 import com.eg.libraryhelperandroid.R
+import com.eg.libraryhelperandroid.bookdetail.bean.BookDetailResponse
+import com.eg.libraryhelperandroid.bookdetail.bean.Position
 import com.eg.libraryhelperandroid.util.OkHttpUtil
+import com.eg.libraryhelperandroid.visitlibrary.VisitLibraryActivity
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.gson.Gson
-import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.activity_book_detail.*
 import okhttp3.Call
 import okhttp3.Callback
@@ -22,6 +25,8 @@ import java.io.IOException
 class BookDetailActivity : AppCompatActivity() {
     private val catalogFragment: CatalogFragment = CatalogFragment()
     private val summaryFragment: SummaryFragment = SummaryFragment()
+
+    private var position: Position? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,6 +75,7 @@ class BookDetailActivity : AppCompatActivity() {
             override fun onResponse(call: Call, response: Response) {
                 val json = response.body?.string()
                 val bookDetailResponse = Gson().fromJson(json, BookDetailResponse::class.java)
+                position = bookDetailResponse.position
                 runOnUiThread(Runnable {
                     tv_title.text = bookDetailResponse.title
                     Glide.with(this@BookDetailActivity)
@@ -82,7 +88,7 @@ class BookDetailActivity : AppCompatActivity() {
                     tv_author.text = author
                     tv_publisher.text = bookDetailResponse.publisher
                     tv_publishDate.text = bookDetailResponse.publishDate
-                    tv_position.text = bookDetailResponse.position
+                    tv_position.text = position?.room + "\n" + (position?.detailPosition ?: "")
                     //准备tab页目录和摘要的数据
                     val catalog = bookDetailResponse.catalog.toString()
                     if (catalog != "")
@@ -101,7 +107,9 @@ class BookDetailActivity : AppCompatActivity() {
      */
     private fun addVisitLibraryButtonListener() {
         btn_visit.setOnClickListener {
-            Toasty.info(this, "Hello baby!").show()
+            val intent = Intent(this, VisitLibraryActivity::class.java);
+            intent.putExtra("position", position)
+            startActivity(intent);
         }
     }
 }
