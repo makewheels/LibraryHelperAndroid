@@ -27,5 +27,5 @@ class BookDetailResponse {
     val catalog: String? = null         //目录
     val summary: String? = null         //简述
 
-    val position: Position? = null        //位置
+    val positionResponse: PositionResponse? = null        //位置
 }

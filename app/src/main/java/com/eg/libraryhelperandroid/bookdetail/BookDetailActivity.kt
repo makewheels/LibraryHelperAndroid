@@ -8,7 +8,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.bumptech.glide.Glide
 import com.eg.libraryhelperandroid.R
 import com.eg.libraryhelperandroid.bookdetail.bean.BookDetailResponse
-import com.eg.libraryhelperandroid.bookdetail.bean.Position
+import com.eg.libraryhelperandroid.bookdetail.bean.PositionResponse
 import com.eg.libraryhelperandroid.util.OkHttpUtil
 import com.eg.libraryhelperandroid.visitlibrary.VisitLibraryActivity
 import com.google.android.material.tabs.TabLayoutMediator
@@ -26,7 +26,7 @@ class BookDetailActivity : AppCompatActivity() {
     private val catalogFragment: CatalogFragment = CatalogFragment()
     private val summaryFragment: SummaryFragment = SummaryFragment()
 
-    private var position: Position? = null
+    private var positionResponse: PositionResponse? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,7 +75,7 @@ class BookDetailActivity : AppCompatActivity() {
             override fun onResponse(call: Call, response: Response) {
                 val json = response.body?.string()
                 val bookDetailResponse = Gson().fromJson(json, BookDetailResponse::class.java)
-                position = bookDetailResponse.position
+                positionResponse = bookDetailResponse.positionResponse
                 runOnUiThread(Runnable {
                     tv_title.text = bookDetailResponse.title
                     Glide.with(this@BookDetailActivity)
@@ -88,7 +88,8 @@ class BookDetailActivity : AppCompatActivity() {
                     tv_author.text = author
                     tv_publisher.text = bookDetailResponse.publisher
                     tv_publishDate.text = bookDetailResponse.publishDate
-                    tv_position.text = position?.room + "\n" + (position?.detailPosition ?: "")
+                    tv_position.text =
+                        positionResponse?.room + "\n" + (positionResponse?.detailPosition ?: "")
                     //准备tab页目录和摘要的数据
                     val catalog = bookDetailResponse.catalog.toString()
                     if (catalog != "")
@@ -108,7 +109,7 @@ class BookDetailActivity : AppCompatActivity() {
     private fun addVisitLibraryButtonListener() {
         btn_visit.setOnClickListener {
             val intent = Intent(this, VisitLibraryActivity::class.java);
-            intent.putExtra("position", position)
+            intent.putExtra("position", positionResponse)
             startActivity(intent);
         }
     }

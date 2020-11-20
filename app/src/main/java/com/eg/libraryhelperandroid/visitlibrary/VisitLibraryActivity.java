@@ -1,7 +1,6 @@
 package com.eg.libraryhelperandroid.visitlibrary;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -12,8 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.fastjson.JSON;
 import com.eg.libraryhelperandroid.R;
-import com.eg.libraryhelperandroid.bookdetail.bean.Position;
+import com.eg.libraryhelperandroid.bookdetail.bean.PositionResponse;
 import com.eg.libraryhelperandroid.util.OkHttpUtil;
+import com.eg.libraryhelperandroid.visitlibrary.bean.visitlibrary.CellInfo;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -21,10 +21,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.List;
 
-import es.dmoral.toasty.Toasty;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -36,7 +34,9 @@ public class VisitLibraryActivity extends AppCompatActivity {
     private Button btn_right;
     private Button btn_down;
 
-    private Position position;
+    //当前cell信息
+    private CellInfo cellInfo = new CellInfo();
+    //书的信息列表
     private List<BookBasicInfo> bookBasicInfoList;
 
     private RecyclerView recyclerView;
@@ -53,48 +53,63 @@ public class VisitLibraryActivity extends AppCompatActivity {
         btn_down = findViewById(R.id.btn_down);
         recyclerView = findViewById(R.id.recyclerView);
 
+        init();
+        loadData();
         addListeners();
-
-        position = (Position) getIntent().getSerializableExtra("position");
-        tv_position.setText(position.getDetailPosition());
-        loadSpecificCellBooks();
-
     }
 
     private void addListeners() {
+        //上下左右按钮
         btn_up.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toasty.info(VisitLibraryActivity.this, JSON.toJSONString(position)).show();
+                cellInfo.setCurrent(cellInfo.getUp());
+                loadData();
             }
         });
         btn_left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                cellInfo.setCurrent(cellInfo.getLeft());
+                loadData();
             }
         });
         btn_right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                cellInfo.setCurrent(cellInfo.getRight());
+                loadData();
             }
         });
         btn_down.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                cellInfo.setCurrent(cellInfo.getDown());
+                loadData();
             }
         });
     }
 
     /**
-     * 加载指定cell的books
+     * 初始化页面
      */
-    private void loadSpecificCellBooks() {
-        Call call = OkHttpUtil.getCall("/book/getBookIdsByTargetCell?room="
-                + position.getRoom() + "&row=" + position.getRow() + "&side=" + position.getSide()
-                + "&shelf=" + position.getShelf() + "&level=" + position.getLevel());
+    private void init() {
+        PositionResponse current = (PositionResponse) getIntent().getSerializableExtra("position");
+        cellInfo.setCurrent(current);
+    }
+
+    /**
+     * 加载数据
+     */
+    private void loadData() {
+        //加载cell数据
+        PositionResponse currentPositionResponse = cellInfo.getCurrent();
+        Call call = OkHttpUtil.getCall("/book/getTargetCellInfo?room="
+                + currentPositionResponse.getRoom()
+                + "&row=" + currentPositionResponse.getRow()
+                + "&side=" + currentPositionResponse.getSide()
+                + "&shelf=" + currentPositionResponse.getShelf()
+                + "&level=" + currentPositionResponse.getLevel());
         call.enqueue(new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
@@ -102,15 +117,15 @@ public class VisitLibraryActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                List<String> bookIds = JSON.parseArray(response.body().string(), String.class);
-                bookBasicInfoList = new ArrayList<>();
-                for (String bookId : bookIds) {
-                    BookBasicInfo bookBasicInfo = new BookBasicInfo();
-                    bookBasicInfo.setBookId(bookId);
-                    bookBasicInfoList.add(bookBasicInfo);
-                }
-                //获取书的基本信息
-                getBookBasicInfoByBookIds();
+                String string = response.body().string();
+                cellInfo = JSON.parseObject(string, CellInfo.class);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        tv_position.setText(cellInfo.getCurrent().getDetailPosition());
+                    }
+                });
+                loadBookBasicInfoByBookIds();
             }
         });
     }
@@ -118,16 +133,11 @@ public class VisitLibraryActivity extends AppCompatActivity {
     /**
      * 获取书的基本信息
      */
-    private void getBookBasicInfoByBookIds() {
-        //放入bookId
-        List<String> bookIdList = new ArrayList<>();
-        for (BookBasicInfo bookBasicInfo : bookBasicInfoList) {
-            bookIdList.add(bookBasicInfo.getBookId());
-        }
+    private void loadBookBasicInfoByBookIds() {
         //请求服务器，获取书的基本信息，存入集合
         Call call = null;
         try {
-            String bookIdListJson = JSON.toJSONString(bookIdList);
+            String bookIdListJson = JSON.toJSONString(cellInfo.getBookIdList());
             call = OkHttpUtil.getCall("/book/getBookBasicInfoByBookIds?bookIds="
                     + URLEncoder.encode(bookIdListJson, StandardCharsets.UTF_8.name()));
         } catch (UnsupportedEncodingException e) {
@@ -147,18 +157,17 @@ public class VisitLibraryActivity extends AppCompatActivity {
     }
 
     /**
-     * 加载到页面上
+     * 加载图片和文字到页面上
      */
     private void loadToPage() {
-        Log.e("tag", JSON.toJSONString(bookBasicInfoList));
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                recyclerView.setAdapter(new VisitLibraryAdapter(VisitLibraryActivity.this, bookBasicInfoList));
-                recyclerView.setLayoutManager(new GridLayoutManager(VisitLibraryActivity.this, 2));
+                recyclerView.setAdapter(
+                        new VisitLibraryAdapter(VisitLibraryActivity.this, bookBasicInfoList));
+                recyclerView.setLayoutManager(
+                        new GridLayoutManager(VisitLibraryActivity.this, 2));
             }
         });
-
-
     }
 }

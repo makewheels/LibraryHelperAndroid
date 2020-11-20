@@ -26,7 +26,7 @@ public class VisitLibraryAdapter extends RecyclerView.Adapter<VisitLibraryAdapte
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = View.inflate(context, R.layout.item_visit_library_recyclerview, null);
+        View view = View.inflate(context, R.layout.item_visit_library_cell_recyclerview, null);
         return new ViewHolder(view);
     }
 
