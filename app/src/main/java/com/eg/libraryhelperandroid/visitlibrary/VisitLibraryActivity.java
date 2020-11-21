@@ -1,6 +1,7 @@
 package com.eg.libraryhelperandroid.visitlibrary;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -122,6 +123,8 @@ public class VisitLibraryActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        String detailPosition = cellInfo.getCurrent().getDetailPosition();
+                        Log.e("tag", detailPosition);
                         tv_position.setText(cellInfo.getCurrent().getDetailPosition());
                     }
                 });
