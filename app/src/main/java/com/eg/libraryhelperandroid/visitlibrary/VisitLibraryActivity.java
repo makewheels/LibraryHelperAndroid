@@ -1,7 +1,6 @@
 package com.eg.libraryhelperandroid.visitlibrary;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -123,9 +122,21 @@ public class VisitLibraryActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        String detailPosition = cellInfo.getCurrent().getDetailPosition();
-                        Log.e("tag", detailPosition);
                         tv_position.setText(cellInfo.getCurrent().getDetailPosition());
+                        //设置按钮可用性
+                        if (cellInfo.getUp() == null) {
+                            btn_up.setEnabled(false);
+                        }
+                        if (cellInfo.getDown() == null) {
+                            btn_down.setEnabled(false);
+                        }
+                        if (cellInfo.getLeft() == null) {
+                            btn_left.setEnabled(false);
+                        }
+                        if (cellInfo.getRight() == null) {
+                            btn_right.setEnabled(false);
+                        }
+
                     }
                 });
                 loadBookBasicInfoByBookIds();
